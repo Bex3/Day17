@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,10 +28,15 @@ public class Controller implements Initializable{
         //view            //arraylist
     }
 
-    public void addItem() {
+    public void addItem(KeyEvent event, MouseEvent e) {
         System.out.println("Adding item ...");
         //todoItems.add(new ToDoItem("Sample")); //adds only sample over & over as add is pressed
-        todoItems.add(new ToDoItem(todoText.getText()));
+        if (event.getCode() == KeyCode.ENTER) {
+            todoItems.add(new ToDoItem(todoText.getText()));
+        } else if (e.equals("Add")) {
+            todoItems.add(new ToDoItem(todoText.getText()));
+        }
+
         todoText.setText(""); //clears it
     }
 
