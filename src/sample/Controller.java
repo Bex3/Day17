@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable{
+public class Controller implements Initializable {
     @FXML
     ListView todoList;
 
@@ -37,34 +37,64 @@ public class Controller implements Initializable{
         todoText.setText(""); //clears it
     }
 
-    //addOnKeyPressed(new EventHandler<KeyEvent>()) {
-      //  Controller.setOnKeyPressed(new EventHandler<MouseEvent>) {
-        //@Override
     public void handleEnter(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             addItem();
         }
     }
 
-
-
-
     public void removeItem() {
         //System.out.println("Removing item ...");
-        ToDoItem todoItem = (ToDoItem)todoList.getSelectionModel().getSelectedItem(); //selection model returns selected model - returns both the text and the entire object
+        ToDoItem todoItem = (ToDoItem) todoList.getSelectionModel().getSelectedItem(); //selection model returns selected model - returns both the text and the entire object
         System.out.println("Removing " + todoItem.text + " ...");
         todoItems.remove(todoItem);
     }
 
     public void toggleItem() {
         System.out.println("Toggling item ...");
-        ToDoItem todoItem = (ToDoItem)todoList.getSelectionModel().getSelectedItem();
+        ToDoItem todoItem = (ToDoItem) todoList.getSelectionModel().getSelectedItem();
         if (todoItem != null) {
             todoItem.isDone = !todoItem.isDone;
             todoList.setItems(null);
             todoList.setItems(todoItems);
         }
     }
+
+    public void toggleAllItemsDone() {
+        System.out.println("Toggling all items to done ...");
+        for (ToDoItem currentItem : todoItems) {
+            //System.out.println("Items " + currentItem);
+            currentItem.isDone = !currentItem.isDone;
+            todoList.setItems(null);
+            todoList.setItems(todoItems);
+        }
+        System.out.println("selected all done");
+    }
+
+    public void toggleAllItemsNotDone() {
+        System.out.println("Toggling all items to not done ...");
+        ToDoItem todoItem = (ToDoItem) todoList.getSelectionModel().getSelectedItem();
+        for (ToDoItem currentItem : todoItems) {
+            //System.out.println("Items " + currentItem);
+            currentItem.isDone = !currentItem.isDone;
+            todoList.setItems(null);
+            todoList.setItems(todoItems);
+        }
+        System.out.println("selected all done");
+    }
+
+    public void toggleAllOpposite() {
+        System.out.println("We are gonna swap your items");
+        ToDoItem todoItem = (ToDoItem) todoList.getSelectionModel().getSelectedItem();
+        for (ToDoItem currentItem : todoItems) {
+            //System.out.println("Items " + currentItem);
+            currentItem.isDone = !currentItem.isDone;
+            !currentItem.isDone = currentItem.isDone;
+            todoList.setItems(null);
+            todoList.setItems(todoItems);
+        }
+        System.out.println("The great switch up");
+
 
 
 }
