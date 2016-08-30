@@ -18,6 +18,7 @@
             <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleItem" text="Toggle" />
             <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleAllItemsDone" text="Mark All Done" HBox.hgrow="ALWAYS" />
             <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleAllItemsNotDone" text="Mark All Not Done" HBox.hgrow="ALWAYS" />
+            <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#toggleAllOpposite" text="Reverse All Toggles" />
          </children>
       </HBox>
       <ListView fx:id="todoList" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />

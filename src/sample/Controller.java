@@ -64,7 +64,7 @@ public class Controller implements Initializable {
         System.out.println("Toggling all items to done ...");
         for (ToDoItem currentItem : todoItems) {
             //System.out.println("Items " + currentItem);
-            currentItem.isDone = !currentItem.isDone;
+            currentItem.isDone = true;
             todoList.setItems(null);
             todoList.setItems(todoItems);
         }
@@ -76,7 +76,7 @@ public class Controller implements Initializable {
         ToDoItem todoItem = (ToDoItem) todoList.getSelectionModel().getSelectedItem();
         for (ToDoItem currentItem : todoItems) {
             //System.out.println("Items " + currentItem);
-            currentItem.isDone = !currentItem.isDone;
+            currentItem.isDone = false;
             todoList.setItems(null);
             todoList.setItems(todoItems);
         }
@@ -88,13 +88,18 @@ public class Controller implements Initializable {
         ToDoItem todoItem = (ToDoItem) todoList.getSelectionModel().getSelectedItem();
         for (ToDoItem currentItem : todoItems) {
             //System.out.println("Items " + currentItem);
-            currentItem.isDone = !currentItem.isDone;
-            !currentItem.isDone = currentItem.isDone;
-            todoList.setItems(null);
-            todoList.setItems(todoItems);
+            if (currentItem.isDone = !currentItem.isDone) {
+                //!currentItem.isDone = currentItem.isDone;
+                todoList.setItems(null);
+                todoList.setItems(todoItems);
+                //}else if (!currentItem.isDone = currentItem.isDone) {
+                //  todoList.setItems(null);
+                //todoList.setItems(todoItems);
+            }
+
         }
         System.out.println("The great switch up");
 
 
-
+    }
 }
