@@ -2,6 +2,7 @@ package sample;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -9,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,17 +30,24 @@ public class Controller implements Initializable{
         //view            //arraylist
     }
 
-    public void addItem(KeyEvent event, MouseEvent e) {
+    public void addItem() {
         System.out.println("Adding item ...");
         //todoItems.add(new ToDoItem("Sample")); //adds only sample over & over as add is pressed
-        if (event.getCode() == KeyCode.ENTER) {
-            todoItems.add(new ToDoItem(todoText.getText()));
-        } else if (e.equals("Add")) {
-            todoItems.add(new ToDoItem(todoText.getText()));
-        }
-
+        todoItems.add(new ToDoItem(todoText.getText()));
         todoText.setText(""); //clears it
     }
+
+    //addOnKeyPressed(new EventHandler<KeyEvent>()) {
+      //  Controller.setOnKeyPressed(new EventHandler<MouseEvent>) {
+        //@Override
+    public void handleEnter(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            addItem();
+        }
+    }
+
+
+
 
     public void removeItem() {
         //System.out.println("Removing item ...");
