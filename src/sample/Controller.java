@@ -11,8 +11,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import jodd.json.JsonParser;
+import jodd.json.JsonSerializer;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -23,6 +28,8 @@ public class Controller implements Initializable {
     TextField todoText;
 
     ObservableList<ToDoItem> todoItems = FXCollections.observableArrayList(); // observable list that allows two way data binding with the UI
+
+    // myController = new Controller();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -100,6 +107,43 @@ public class Controller implements Initializable {
         }
         System.out.println("The great switch up");
 
+    }
+
+    public String jsonSave(ToDoItem todoToSave) { //this generates the json string - must save that string to file
+        JsonSerializer jsonSerializer = new JsonSerializer().deep(true);
+        String jsonString = jsonSerializer.serialize(todoToSave);
+
+        return jsonString;
+    }
+    public void saveFile(String jsonString){
+        try {
+            File jsonStringFile = new File("json test.json");
+            FileWriter jsonStringFileWriter = new FileWriter(jsonStringFile);
+            jsonStringFileWriter.write(jsonString);
+            jsonStringFileWriter.close();
+        } catch (Exception exception) {
+            System.out.println("Exception while writing to file ...");
+        }
+    }
+
+    public ToDoItem jsonRestore(String jsonTD) {
+        JsonParser toDoItemParser = new JsonParser();
+        ToDoItem item = toDoItemParser.parse(jsonTD, ToDoItem.class);
+        return item;
+    }
+
+    public void writeJsonItem(){
 
     }
+
+
+
+
+
+
+
+
+
+
+
 }
