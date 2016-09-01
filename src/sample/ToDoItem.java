@@ -7,7 +7,7 @@ public class ToDoItem {
         String text;
         boolean isDone;
 
-        public ToDoItem(String text) {
+        public ToDoItem(String text,boolean isdone) {
             this.text = text;
             this.isDone = false;
         }
