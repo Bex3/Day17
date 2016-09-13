@@ -4,6 +4,22 @@ package sample;
  * Created by bearden-tellez on 8/30/16.
  */
 public class ToDoItem {
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
+    }
+
     String text;
     boolean isDone;
 
