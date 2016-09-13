@@ -29,6 +29,8 @@ public class Controller implements Initializable {
     public String username;
     String filename = "todo.json";
 
+    Container userContainer = new Container();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -39,17 +41,22 @@ public class Controller implements Initializable {
         System.out.println("Please enter your name");
         username = inputScanner.nextLine();
         System.out.println("UserName " + username);
+
         if (username != null) {
             filename = username + ".json";
         }
-        System.out.println("Checking for your list");
-        Container userExistingList = getList();
 
-        if (userExistingList != null) {
-            for (ToDoItem item : userExistingList.toDoItems) {
+        System.out.println("Checking for your list");
+
+        userContainer = getList();
+
+        if (userContainer != null) {
+            for (ToDoItem item : userContainer.toDoItems) {
                 todoItems.add(item);
             }
         }
+
+
         todoList.setItems(todoItems);
     }
 
@@ -59,7 +66,9 @@ public class Controller implements Initializable {
         todoItems.add(new ToDoItem(todoText.getText()));
         todoText.setText(""); //clears it
 
-        serializeAndsaveFile();
+        //add to userlist here?
+
+        serializeAndSaveFile();
 
     }
 
@@ -74,6 +83,8 @@ public class Controller implements Initializable {
         ToDoItem todoItem = (ToDoItem) todoList.getSelectionModel().getSelectedItem(); //selection model returns selected model - returns both the text and the entire object
         System.out.println("Removing " + todoItem.text + " ...");
         todoItems.remove(todoItem);
+
+        serializeAndSaveFile();
     }
 
     public void toggleItem() {
@@ -83,6 +94,8 @@ public class Controller implements Initializable {
             todoItem.isDone = !todoItem.isDone;
             todoList.setItems(null);
             todoList.setItems(todoItems);
+
+            serializeAndSaveFile();
         }
     }
 
@@ -105,6 +118,7 @@ public class Controller implements Initializable {
             currentItem.isDone = false;
             todoList.setItems(null);
             todoList.setItems(todoItems);
+            serializeAndSaveFile();
         }
         System.out.println("selected all done");
     }
@@ -121,6 +135,7 @@ public class Controller implements Initializable {
                 //}else if (!currentItem.isDone = currentItem.isDone) {
                 //  todoList.setItems(null);
                 //todoList.setItems(todoItems);
+                serializeAndSaveFile();
             }
 
         }
@@ -135,11 +150,19 @@ public class Controller implements Initializable {
 //        return jsonString;
 //    }
 
-    public void serializeAndsaveFile() {
+    public void serializeAndSaveFile() {
         try {
             JsonSerializer jsonSerializer = new JsonSerializer().deep(true);
-            Container tempContainer = new Container(todoItems);
-            String jsonString = jsonSerializer.serialize(tempContainer);
+//            Container tempContainer = new Container(todoItems);
+
+
+            Container thisContainer = new Container();
+
+            for(ToDoItem currentItem: todoItems){
+                thisContainer.toDoItems.add(currentItem);
+            }
+
+            String jsonString = jsonSerializer.serialize(thisContainer);
 
             File jsonStringFile = new File(filename);
             FileWriter jsonStringFileWriter = new FileWriter(jsonStringFile);
@@ -152,42 +175,36 @@ public class Controller implements Initializable {
     }
 
 
-    public Container getList() {
-        try {
-            Scanner fileScanner = new Scanner(new File(filename));
-            while (fileScanner.hasNext()) {
+//    public Container getList() {
+//        try {
+//            Scanner fileScanner = new Scanner(new File(filename));
+//                String currentLine = fileScanner.nextLine();
+//                JsonParser toDoItemParser = new JsonParser();
+//                Container pExistingToDo = toDoItemParser.parse(currentLine, Container.class);
+//                return pExistingToDo;
+//        } catch (Exception exception) {
+//            exception.printStackTrace();
+//            return null;
+//        }
+//    }
+
+        public Container getList() {
+            Container myContainer = new Container();
+            try {
+                File thisFile = new File(filename);
+                Scanner fileScanner = new Scanner(thisFile);
                 String currentLine = fileScanner.nextLine();
                 JsonParser toDoItemParser = new JsonParser();
-                Container pExistingToDo = toDoItemParser.parse(currentLine, Container.class);
-                return pExistingToDo;
-            }
+                if (currentLine == null) {
+                    myContainer = new Container();
+                } else {
+                    myContainer = toDoItemParser.parse(currentLine, Container.class);
 
-        } catch (Exception exception) {
-            exception.printStackTrace();
-
-        }
-        return null;
-    }
-
-/*
-    public ToDoItem jsonRestore(String jsonTD) {
-        JsonParser toDoItemParser = new JsonParser();
-        ToDoItem item = toDoItemParser.parse(jsonTD, ToDoItem.class);
-        return item;
-    }*/
-
-/*    public void readJsonItem(){
-            try {
-                File jsonStringFile = new File("test.json");
-                Scanner fileScanner = new Scanner(jsonStringFile);
-                while (fileScanner.hasNext()) {
-                    String currentLine = fileScanner.nextLine();
-                    currentLine.add
                 }
+            } catch (Exception exception) {
 
-            }catch (Exception exception) {
-                exception.printStackTrace();
             }
-        return ...........;
-    }*/
+            return myContainer;
+        }
+
 }

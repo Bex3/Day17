@@ -4,6 +4,9 @@ package sample;
  * Created by bearden-tellez on 8/30/16.
  */
 public class ToDoItem {
+    public ToDoItem() {
+    }
+
     public String getText() {
         return text;
     }
